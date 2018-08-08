@@ -5,6 +5,7 @@ const path = require('path');
 const {execSync} = require('child_process');
 const args = require('minimist')(process.argv.slice(2));
 const semver = require('semver');
+const mkdirp = require('mkdirp');
 
 if (args._.length === 0) {
   console.error([
@@ -22,7 +23,7 @@ if (args._.length === 0) {
 // const reactNativeCli = path.resolve(__dirname, '../../react-native-cli/index.js');
 const reactNativeCli = 'react-native';
 const projectName = args._[0];
-const {version} = args;
+let version = args.version || '';
 let installCommand = `${reactNativeCli} init ${projectName}`;
 
 if (version) {
@@ -37,6 +38,8 @@ try {
 }
 
 const projectPath = path.resolve(process.cwd(), projectName);
+process.chdir(projectPath);
+
 // const babelFilePath = path.resolve(projectPath, '.babelrc');
 // const babel = eval('(' + fs.readFileSync(babelFilePath).toString() + ')');
 //
@@ -46,10 +49,23 @@ const projectPath = path.resolve(process.cwd(), projectName);
 //
 // fs.writeFileSync(babelFilePath, JSON.stringify(babel, null, 2));
 
+const packageFilePath = path.resolve('package.json');
+const packageData = require(packageFilePath);
+
+if (!packageData.scripts) {
+  packageData.scripts = {};
+}
+
+packageData.scripts.start = 'sh shell/start.sh';
+fs.writeFileSync(packageFilePath, JSON.stringify(packageData, null, 2));
+
+if (!version) {
+  version = packageData.dependencies['react-native'].replace(/^(?:^|~)/, '');
+}
+
 const yarnVersion = getYarnVersion();
 
 makeDir('src');
-makeDir('shell');
 copyTemplateFile('.editorconfig');
 copyTemplateFile('README.md');
 // ajv is required by eslint
@@ -60,25 +76,33 @@ installPackage('eslint', true);
 installPackage('watchman', true);
 installPackage('@types/react-native', true);
 installPackage('@types/react', true);
+copyReactNativeCache();
+
+const shellPath = path.resolve(__dirname, '..', 'templates', 'shell', '*.sh');
+
+makeDir('shell');
+try {
+  execSync(`cp ${shellPath} shell/`, {stdio: 'inherit'});
+  execSync('sh shell/init.sh', {stdio: 'inherit'});
+} catch (err) {
+  console.error(err.message || err);
+  process.exit(1);
+}
 
 function makeDir(dirName) {
   console.log(`Created directory -> ${dirName}.`);
-  fs.mkdirSync(path.join(projectPath, dirName));
+  mkdirp.sync(dirName);
 }
 
 function copyTemplateFile(fileName) {
   console.log(`Created file -> ${fileName}.`);
-  fs.copyFileSync(
-    path.join(__dirname, 'templates', fileName),
-    path.join(projectPath, fileName)
-  );
+  makeDir(path.dirname(fileName));
+  fs.copyFileSync(path.join(__dirname, '../templates', fileName), fileName);
 }
 
 function installPackage(packageName, isDev = false) {
-  const oldCwd = process.cwd();
   let installCommand;
 
-  process.chdir(projectPath);
   console.log(`Installing ${packageName}...`);
 
   if (yarnVersion) {
@@ -91,7 +115,7 @@ function installPackage(packageName, isDev = false) {
     installCommand = `npm install ${packageName}`;
 
     if (isDev) {
-      installCommand += '--save-dev';
+      installCommand += ' --save-dev';
     }
   }
 
@@ -101,16 +125,12 @@ function installPackage(packageName, isDev = false) {
     console.error(err.message || err);
     process.exit(1);
   }
-
-  process.chdir(oldCwd);
 }
 
-// copy from react-native-cli
 function getYarnVersion() {
   let yarnVersion;
 
   try {
-    // execSync returns a Buffer -> convert to string
     if (process.platform.startsWith('win')) {
       yarnVersion = (execSync('yarn --version').toString() || '').trim();
     } else {
@@ -130,4 +150,24 @@ function getYarnVersion() {
     console.error('Cannot parse yarn version: ' + yarnVersion);
     return null;
   }
+}
+
+function copyReactNativeCache() {
+  const rnCacheMap = require('./rncache.json');
+  const rnVersionMap = Object
+    .keys(rnCacheMap)
+    .sort((prev, next) => {
+      return semver.gt(next, prev) ? 1 : -1;
+    });
+  let rnVersion = rnVersionMap.find((rnVersion) => {
+    return semver.gte(version, rnVersion);
+  });
+
+  if (!rnVersion) {
+    rnVersion = rnVersionMap.pop();
+  }
+
+  rnCacheMap[rnVersion].forEach((pkg) => {
+    copyTemplateFile(`rncache/${pkg}.tar.gz`);
+  });
 }
