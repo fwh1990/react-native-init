@@ -1,0 +1,38 @@
+{
+  "name": "react-native-init",
+  "version": "0.0.1",
+  "description": "Create React-Native Projects with Native Code",
+  "main": "index.js",
+  "scripts": {
+    "test": "exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fwh1990/react-native-init.git"
+  },
+  "keywords": [
+    "react-native",
+    "android",
+    "ios",
+    "initialize"
+  ],
+  "author": "fwh1990",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fwh1990/react-native-init/issues"
+  },
+  "homepage": "https://github.com/fwh1990/react-native-init#readme",
+  "bin": {
+    "react-native-init": "./index.js"
+  },
+  "dependencies": {
+    "minimist": "^1.2.0",
+    "react-native-cli": "^2.0.1",
+    "semver": "^5.5.0"
+  },
+  "devDependencies": {
+    "@types/minimist": "^1.2.0",
+    "@types/node": "^10.5.7",
+    "@types/semver": "^5.5.0"
+  }
+}
