@@ -1,0 +1,7 @@
+node_modules/
+.editorconfig
+.gitignore
+package-lock.json
+shell
+.Ds_Store
+.idea/
