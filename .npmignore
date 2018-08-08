@@ -5,3 +5,4 @@ package-lock.json
 shell
 .Ds_Store
 .idea/
+test-demo/

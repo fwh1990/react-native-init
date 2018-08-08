@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/fwh1990/react-native-init#readme",
   "bin": {
-    "react-native-init": "./index.js"
+    "react-native-init": "./src/index.js"
   },
   "dependencies": {
     "minimist": "^1.2.0",
