@@ -11,6 +11,7 @@ if [ "$ANDROID_PATH_EXIST" == "" ]; then
 fi
 
 avds=`ls ~/.android/avd | grep .avd | sed "s#.avd##"`
+avds=(${avds})
 avd_count=`ls ~/.android/avd | grep .avd | wc -l`
 
 echo ""
@@ -25,11 +26,12 @@ if [ ${avd_count} == 0 ]; then
 elif [ ${avd_count} == 1 ]; then
   avd=${avds[0]}
 else
-  read -p "Select the emulator which you want to launch：" avd
+  first_avd=${avds[0]}
+  read -p "Select the emulator which you want to launch: [$first_avd]" avd
   echo ""
 
-  if "$avd" == ""; then
-    avd=${avds[0]}
+  if [ "$avd" == "" ]; then
+    avd=${first_avd}
   fi
 fi
 
@@ -40,7 +42,7 @@ if [ "${process}" != "" ] && [ ${process_count} == 1 ]; then
   process_id=`echo ${process} | awk '{print $2}'`
   echo "Force killing android emulator..."
   kill -9 ${process_id}
-  # just in case launch failure
+  # just in case fail to launch
   sleep 1
 fi
 
