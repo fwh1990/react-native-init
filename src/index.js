@@ -101,11 +101,10 @@ try {
   process.exit(1);
 }
 
-const initFilePath = path.resolve('shell', 'init.sh');
 const avdProfile = getJsonMap('android-avd');
 fs.writeFileSync(
-  initFilePath,
-  fs.readFileSync(initFilePath)
+  path.resolve('shell', 'init.sh'),
+  fs.readFileSync(path.resolve('shell', 'init.sh'))
     .toString()
     .replace(':install:', yarnVersion ? 'yarn add' : 'npm install')
     .replace(':sdk_platforms:', `"${getJsonMap('android-sdk-platforms').join('" "')}"`)
@@ -113,6 +112,20 @@ fs.writeFileSync(
     .replace(':rn-version:', version)
     .replace(':avd-package:', `"${avdProfile.package}"`)
     .replace(':avd-size:', avdProfile.size)
+);
+
+fs.writeFileSync(
+  path.resolve('shell', 'build.sh'),
+  fs.readFileSync(path.resolve('shell', 'build.sh'))
+    .toString()
+    .replace(':project_name:', projectName)
+);
+
+fs.writeFileSync(
+  path.resolve('shell', 'signature-android.sh'),
+  fs.readFileSync(path.resolve('shell', 'signature-android.sh'))
+    .toString()
+    .replace(':project_name:', projectName)
 );
 
 try {
