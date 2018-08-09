@@ -14,7 +14,8 @@ if (args._.length === 0) {
     '',
     '  Options:',
     '',
-    '    --version output the react native version number',
+    '    --version {string} output the react native version number, default is latest RN version',
+    '    --npm {boolean} use npm to install package, default is false',
     '',
   ].join('\n'));
   process.exit(1);
@@ -28,6 +29,10 @@ let installCommand = `${reactNativeCli} init ${projectName}`;
 
 if (version) {
   installCommand += ` --version=${version}`;
+}
+
+if (args.npm) {
+  installCommand += ' --npm';
 }
 
 try {
@@ -63,7 +68,7 @@ if (!version) {
   version = packageData.dependencies['react-native'].replace(/^(?:^|~)/, '');
 }
 
-const yarnVersion = getYarnVersion();
+const yarnVersion = !args.npm && getYarnVersion();
 
 makeDir('src');
 copyTemplateFile('.editorconfig');
@@ -83,6 +88,7 @@ const shellPath = path.resolve(__dirname, '..', 'templates', 'shell', '*.sh');
 makeDir('shell');
 try {
   execSync(`cp ${shellPath} shell/`, {stdio: 'inherit'});
+  execSync(`sed -i "" "s#:install:#${yarnVersion ? 'yarn add' : 'npm install'}#" shell/init.sh`, {stdio: 'inherit'});
   execSync('sh shell/init.sh', {stdio: 'inherit'});
 } catch (err) {
   console.error(err.message || err);

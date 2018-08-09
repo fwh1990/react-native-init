@@ -3,15 +3,7 @@
 # Install shell is for team cooperation. Everyone must run this file at first.
 # sh shell/init.sh
 
-yarn_version=`yarn --version 2>/dev/null`
-
-function version_ge() { test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" == "$1"; }
-
-if [ "$yarn_version" != "" ] && [ version_ge "$yarn_version" "0.16.0" ]; then
-  yarn add
-else
-  npm install
-fi
+:install:
 
 mkdir -p ~/.rncache
 cp -f rncache/* ~/.rncache/
