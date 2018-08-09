@@ -1,0 +1,10 @@
+{
+  "0.55.4": {
+    "package": "system-images;android-23;google_apis;x86_64",
+    "size": "2048M"
+  },
+  "0.56.0": {
+    "package": "system-images;android-26;google_apis;x86_64",
+    "size": "3096M"
+  }
+}

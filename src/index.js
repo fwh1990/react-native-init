@@ -21,10 +21,16 @@ if (args._.length === 0) {
   process.exit(1);
 }
 
+let version = args.version || '';
+
+if (version && semver.lt(version, '0.55.4')) {
+  console.error('The minimum react-native version is 0.55.4');
+  process.exit(1);
+}
+
 // const reactNativeCli = path.resolve(__dirname, '../../react-native-cli/index.js');
 const reactNativeCli = 'react-native';
 const projectName = args._[0];
-let version = args.version || '';
 let installCommand = `${reactNativeCli} init ${projectName}`;
 
 if (version) {
@@ -78,17 +84,38 @@ copyTemplateFile('README.md');
 // ajv-keywords@3.2.0 requires a peer of ajv@^6.0.0 but none is installed. You must install peer dependencies yourself.
 installPackage('ajv', true);
 installPackage('eslint', true);
-installPackage('watchman', true);
+// installPackage('watchman', true);
 installPackage('@types/react-native', true);
 installPackage('@types/react', true);
-copyReactNativeCache();
+getJsonMap('ios-rncache').forEach((pkg) => {
+  copyTemplateFile(`rncache/${pkg}.tar.gz`);
+});
 
 const shellPath = path.resolve(__dirname, '..', 'templates', 'shell', '*.sh');
 
 makeDir('shell');
 try {
   execSync(`cp ${shellPath} shell/`, {stdio: 'inherit'});
-  execSync(`sed -i "" "s#:install:#${yarnVersion ? 'yarn add' : 'npm install'}#" shell/init.sh`, {stdio: 'inherit'});
+} catch (err) {
+  console.error(err.message || err);
+  process.exit(1);
+}
+
+const initFilePath = path.resolve('shell', 'init.sh');
+const avdProfile = getJsonMap('android-avd');
+fs.writeFileSync(
+  initFilePath,
+  fs.readFileSync(initFilePath)
+    .toString()
+    .replace(':install:', yarnVersion ? 'yarn add' : 'npm install')
+    .replace(':sdk_platforms:', `"${getJsonMap('android-sdk-platforms').join('" "')}"`)
+    .replace(':sdk_tools:', `"${getJsonMap('android-sdk-tools').join('" "')}"`)
+    .replace(':rn-version:', version)
+    .replace(':avd-package:', `"${avdProfile.package}"`)
+    .replace(':avd-size:', avdProfile.size)
+);
+
+try {
   execSync('sh shell/init.sh', {stdio: 'inherit'});
 } catch (err) {
   console.error(err.message || err);
@@ -158,22 +185,20 @@ function getYarnVersion() {
   }
 }
 
-function copyReactNativeCache() {
-  const rnCacheMap = require('./rncache.json');
-  const rnVersionMap = Object
-    .keys(rnCacheMap)
+function getJsonMap(fileName) {
+  const map = require(`./maps/${fileName}.json`);
+  const mapKeys = Object
+    .keys(map)
     .sort((prev, next) => {
       return semver.gt(next, prev) ? 1 : -1;
     });
-  let rnVersion = rnVersionMap.find((rnVersion) => {
+  let mapKey = mapKeys.find((rnVersion) => {
     return semver.gte(version, rnVersion);
   });
 
-  if (!rnVersion) {
-    rnVersion = rnVersionMap.pop();
+  if (!mapKey) {
+    mapKey = mapKeys.pop();
   }
 
-  rnCacheMap[rnVersion].forEach((pkg) => {
-    copyTemplateFile(`rncache/${pkg}.tar.gz`);
-  });
+  return map[mapKey];
 }
