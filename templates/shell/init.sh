@@ -67,8 +67,29 @@ ${sdk_manager} --install emulator
 ${avd_manager} create avd \
   --name rn-android-:rn-version: \
   --package :avd-package: \
-  --sdcard :avd-size: \
+  --sdcard 300M \
   --device "Nexus 5X"
+
+
+# plus phone ram
+#    hw.ramSize
+# show phone frame
+#    showDeviceFrame=yes
+# change graphics rendering
+#    hw.gpu.mode=auto
+# open keyboard
+#    hw.keyboard=yes
+# enable camera
+#    hw.camera.front=emulated
+#    hw.camera.back=virtualscene
+cat >> $HOME/.android/avd/rn-android-:rn-version:.avd/config.ini << EOF
+hw.ramSize=2048
+showDeviceFrame=yes
+hw.gpu.mode=auto
+hw.keyboard=yes
+hw.camera.front=emulated
+hw.camera.back=virtualscene
+EOF
 
 echo ''
 echo '\033[33mInitialize Complete.\033[0m'
