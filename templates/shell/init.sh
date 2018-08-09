@@ -71,24 +71,15 @@ ${avd_manager} create avd \
   --device "Nexus 5X"
 
 
-# plus phone ram
-#    hw.ramSize
-# show phone frame
-#    showDeviceFrame=yes
-# change graphics rendering
-#    hw.gpu.mode=auto
-# open keyboard
-#    hw.keyboard=yes
-# enable camera
-#    hw.camera.front=emulated
-#    hw.camera.back=virtualscene
 cat >> $HOME/.android/avd/rn-android-:rn-version:.avd/config.ini << EOF
 hw.ramSize=2048
 showDeviceFrame=yes
+hw.gpu.enabled=yes
 hw.gpu.mode=auto
 hw.keyboard=yes
 hw.camera.front=emulated
 hw.camera.back=virtualscene
+skin.path=_no_skin
 EOF
 
 echo ''

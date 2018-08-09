@@ -39,14 +39,12 @@ process=`ps aux | grep "\-avd ${avd}" | grep -v grep`
 process_count=`echo ${process} | wc -l`
 
 if [ "${process}" != "" ] && [ ${process_count} == 1 ]; then
-  process_id=`echo ${process} | awk '{print $2}'`
-  echo "Force killing android emulator..."
-  kill -9 ${process_id}
-  # just in case fail to launch
-  sleep 1
+  echo "Android emulator had been launched"
+  exit 0
 fi
 
-echo "Android emulator of ${avd} is launching..."
+echo "Android emulator ${avd} is launching..."
 cd ~/Library/Android/sdk/tools/
 emulator -avd ${avd} &
-echo "Launching complete."
+echo "Launching complete, wait for boot..."
+sleep 5
