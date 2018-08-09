@@ -21,6 +21,7 @@ if (args._.length === 0) {
   process.exit(1);
 }
 
+const projectName = args._[0];
 let version = args.version || '';
 
 if (version && semver.lt(version, '0.55.4')) {
@@ -28,10 +29,26 @@ if (version && semver.lt(version, '0.55.4')) {
   process.exit(1);
 }
 
-// const reactNativeCli = path.resolve(__dirname, '../../react-native-cli/index.js');
-const reactNativeCli = 'react-native';
-const projectName = args._[0];
-let installCommand = `${reactNativeCli} init ${projectName}`;
+const xcode_version=execSync(`xcodebuild -version 2>&1 | awk 'NR==1{print $2}'`).toString();
+
+if (semver.lt(xcode_version, '9.4.0')) {
+  console.error('The minimum xcode version is 9.4.0');
+  process.exit(1);
+}
+
+const jdk_version=execSync(`java -version 2>&1 | awk 'NR==1{ gsub(/"/,""); print $3 }'`).toString();
+
+if (semver.lt(jdk_version.split('_')[0], '1.8.0')) {
+  console.error('The minimum jdk version is 8');
+  process.exit(1);
+}
+
+if (fs.existsSync(path.resolve(projectName))) {
+  console.error(`Directory ${projectName} already exists.`);
+  process.exit(1);
+}
+
+let installCommand = `react-native init ${projectName}`;
 
 if (version) {
   installCommand += ` --version=${version}`;
