@@ -1,8 +1,9 @@
 node_modules/
-.editorconfig
-.gitignore
+/.editorconfig
+/.npmignore
+/.gitignore
 package-lock.json
-shell
+/shell
 .Ds_Store
 .idea/
-test-demo/
+testdemo/

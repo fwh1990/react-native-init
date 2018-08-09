@@ -1,6 +1,6 @@
 {
   "name": "react-native-init",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Create React-Native Projects with Native Code",
   "main": "src/index.js",
   "scripts": {
