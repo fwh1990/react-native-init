@@ -1,3 +1,12 @@
+## What can I do
+##### 1、Create project based on react-native-cli.
+##### 2、Download android sdk automatically without android studio.
+##### 3、Create android emulator automatically without android studio.
+##### 4、Run `npm start` can launch android & ios simulator automatically.
+##### 5、Build your android & ios app by shell script automatically.
+##### 6、Upload you ios app to app-store by shell script automatically.
+##### 7、You don't need to care about how to install any more, just focus to write javascript code.
+
 ## Requirements
 
 - macos
