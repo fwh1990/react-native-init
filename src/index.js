@@ -37,24 +37,22 @@ if (semver.lt(process.version, nodeVersion)) {
 
 const projectName = args._[0];
 const version = getReactNativeVersion();
-
-if (version && semver.lt(version, misc['min-support-rn'])) {
+if (semver.lt(version, misc['min-support-rn'])) {
   console.error(`The minimum supported react-native version is ${misc['min-support-rn']}`);
   process.exit(1);
 }
 
 const xcodeVersion = runShellAndReturn(`xcodebuild -version 2>&1 | awk 'NR==1{print $2}'`);
 const minXcodeVersion = getJsonMap('ios-xcode');
-
 if (semver.lt(xcodeVersion, minXcodeVersion)) {
   console.error(`The minimum supported xcode version is ${minXcodeVersion}`);
   process.exit(1);
 }
 
-const jdkVersion = runShellAndReturn(`java -version 2>&1 | awk 'NR==1{ gsub(/"/,""); print $3 }'`);
-
-if (semver.lt(jdkVersion.split('_')[0], '1.8.0')) {
-  console.error('The minimum jdk version is 8');
+const javaVersion = runShellAndReturn(`java -version 2>&1 | awk 'NR==1{ gsub(/"/,""); print $3 }'`);
+const minJavaVersion = getJsonMap('android-jdk');
+if (semver.lt(javaVersion.split('_')[0], minJavaVersion.java)) {
+  console.error(`The minimum jdk version is ${minJavaVersion.jdk}`);
   process.exit(1);
 }
 
@@ -63,23 +61,18 @@ if (fs.existsSync(path.resolve(projectName))) {
   process.exit(1);
 }
 
-let installCommand = `react-native init ${projectName}`;
-
-if (version) {
-  installCommand += ` --version=${version}`;
-}
-
+let installCommand = `react-native init ${projectName} --version=${version}`;
 if (args.npm) {
   installCommand += ' --npm';
 }
-
 runShell(installCommand);
 
 const yarnVersion = !args.npm && getYarnVersion();
 const projectPath = path.join(process.cwd(), projectName);
-
+// change the working directory to new project
 process.chdir(projectPath);
 
+// todo: extend the babel
 // const babelFilePath = path.resolve(projectPath, '.babelrc');
 // const babel = eval('(' + fs.readFileSync(babelFilePath).toString() + ')');
 //

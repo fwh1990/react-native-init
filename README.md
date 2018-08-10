@@ -1,9 +1,9 @@
 ## Requirements
 
 - macos
-- Install xcode 9+ [depend on react-native version]
-- Install node 8+ [depend on react-native version]
-- Install [JDK 8+](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)  [depend on react-native version]
+- Install xcode 9+  &nbsp;&nbsp;  [lookup](https://github.com/fwh1990/react-native-init/blob/master/src/maps/ios-xcode.json)
+- Install node 8+  &nbsp;&nbsp;  [lookup](https://github.com/fwh1990/react-native-init/blob/master/src/maps/node-version.json)
+- Install JDK 8+   &nbsp;&nbsp;  [lookup](https://github.com/fwh1990/react-native-init/blob/master/src/maps/android-jdk.json)
 
 Android Studio is not required. We will use shell script to install sdk-platforms and sdk-tools.
 
