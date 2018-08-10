@@ -2,7 +2,7 @@
 
 ANDROID_PATH_EXIST=`cat ~/.bash_profile | grep ANDROID_NDK=`
 
-if [ "$ANDROID_PATH_EXIST" == "" ]; then
+if [ -z "$ANDROID_PATH_EXIST" ]; then
   echo '
     export ANDROID_NDK=$HOME/Library/Android/ndk
   ' >> ~/.bash_profile
@@ -31,7 +31,7 @@ else
   read -t 30 -p "Select the emulator which you want to launch: [$first_avd]" avd
   echo ""
 
-  if [ "$avd" == "" ]; then
+  if [ -z "$avd" ]; then
     avd=${first_avd}
   fi
 fi
@@ -39,7 +39,7 @@ fi
 process=`ps aux | grep "\-avd ${avd}" | grep -v grep`
 process_count=`echo ${process} | wc -l`
 
-if [ "${process}" != "" ] && [ ${process_count} == 1 ]; then
+if [ -n "${process}" ] && [ ${process_count} == 1 ]; then
   echo "Android emulator had been launched"
   exit 0
 fi
@@ -47,9 +47,11 @@ fi
 echo "Android emulator ${avd} is launching..."
 cd ~/Library/Android/sdk/tools/
 emulator -avd ${avd} &
-echo "Wait for boot complete..."
 
-while [ "`adb shell getprop sys.boot_completed 2>/dev/null`" == "" ];
+count=0
+while [ "`adb shell getprop sys.boot_completed 2>/dev/null`" != "1" ];
 do
   sleep 1
+  count=$[${count} + 1]
+  echo "Wait for boot complete, wasting ${count} second..."
 done

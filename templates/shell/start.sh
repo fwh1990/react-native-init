@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
 
+port=$1
+if [ -z "${port}" ]; then
+  port=8081
+fi
+
 # Android emulator must be launched by yourself.
 sh shell/launch-android.sh
 
-# The shell script `react-native start` will hold current terminal, so we must open another terminal.
-osascript \
-  -e 'tell application "Terminal" to activate' \
-  -e 'tell application "System Events" to keystroke "t" using {command down}' \
-  -e "tell application \"Terminal\" to do script \"cd $(pwd) && react-native start\" in front window"
+data=`curl --silent http://localhost:${port}/status`
+if [ "${data}" = "packager-status:running" ]; then
+  echo "JS server already running."
+else
+  open ./node_modules/react-native/scripts/launchPackager.command
+fi
 
 react-native link
 # Run android may fail before emulator boot complete.

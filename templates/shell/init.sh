@@ -16,7 +16,7 @@ cp -f rncache/* ~/.rncache/
 
 # Required by android
 ANDROID_PATH_EXIST=`cat ~/.bash_profile | grep ANDROID_HOME=`
-if [ "$ANDROID_PATH_EXIST" == "" ]; then
+if [ -z "$ANDROID_PATH_EXIST" ]; then
   echo '
 
     export ANDROID_HOME=$HOME/Library/Android/sdk

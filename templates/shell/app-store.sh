@@ -7,7 +7,7 @@ APP_STORE_PASSWORD=?
 
 IPA=`ls ios/build/ipa-app-store/*.sh 2>/dev/null`
 
-if [ "$IPA" == "" ]; then
+if [ -z "$IPA" ]; then
   echo ""
   echo "Oops, Ipa file is not found. run shell build.sh at first."
   echo ""

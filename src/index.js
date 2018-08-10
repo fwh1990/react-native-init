@@ -89,10 +89,9 @@ if (!packageData.scripts) {
   packageData.scripts = {};
 }
 
-packageData.scripts.start = 'sh shell/start.sh';
+packageData.scripts.start = 'sh shell/start.sh 8081';
 fs.writeFileSync(packageFilePath, JSON.stringify(packageData, null, 2));
 
-createDir('src');
 copyTemplateFile('.editorconfig');
 copyTemplateFile('README.md');
 // ajv is required by eslint
@@ -107,8 +106,9 @@ getJsonMap('ios-rncache').forEach((pkg) => {
   copyTemplateFile(`rncache/${pkg}.tar.gz`);
 });
 
-const shellFolder = path.join(__dirname, '..', 'templates', 'shell', '*.sh');
+const shellFolder = path.join(__dirname, '..', 'templates', 'shell', '*');
 
+createDir('src');
 createDir('shell');
 runShell(`cp ${shellFolder} shell/`);
 
@@ -151,5 +151,5 @@ replacePlaceholder('shell/signature-android.sh', [
 
 runShell('sh shell/init.sh');
 
-console.log('Welcome to run "npm start"');
+console.log(`Welcome to run "cd ${projectName} && npm start"`);
 console.log('');

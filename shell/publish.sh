@@ -4,7 +4,7 @@ registry=`npm config get registry`
 npm config set registry https://registry.npmjs.org
 whoami=`npm whoami 2> /dev/null`
 
-if [ "$whoami" == "" ]; then
+if [ -z "$whoami" ]; then
    echo "login plz..."
    npm login
 fi
