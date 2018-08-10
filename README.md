@@ -16,6 +16,8 @@
 
 Android Studio is not required. We will use shell script to install sdk-platforms and sdk-tools.
 
+You'd better install jdk8, not jdk10. Because jdk10 may make your app crash.
+
 ## Install
 
 ```bash
@@ -25,6 +27,11 @@ npm install -g react-native-init@latest
 
 ```bash
 react-native-init YourProjectName
+```
+And then run your project:
+```bash
+cd YourProjectName
+npm start
 ```
 
 ## Options
