@@ -29,16 +29,16 @@ if (version && semver.lt(version, '0.55.4')) {
   process.exit(1);
 }
 
-const xcode_version=execSync(`xcodebuild -version 2>&1 | awk 'NR==1{print $2}'`).toString();
+const xcodeVersion=execSync(`xcodebuild -version 2>&1 | awk 'NR==1{print $2}'`).toString();
 
-if (semver.lt(xcode_version, '9.4.0')) {
+if (semver.lt(xcodeVersion, '9.4.0')) {
   console.error('The minimum xcode version is 9.4.0');
   process.exit(1);
 }
 
-const jdk_version=execSync(`java -version 2>&1 | awk 'NR==1{ gsub(/"/,""); print $3 }'`).toString();
+const jdkVersion=execSync(`java -version 2>&1 | awk 'NR==1{ gsub(/"/,""); print $3 }'`).toString();
 
-if (semver.lt(jdk_version.split('_')[0], '1.8.0')) {
+if (semver.lt(jdkVersion.split('_')[0], '1.8.0')) {
   console.error('The minimum jdk version is 8');
   process.exit(1);
 }
@@ -125,8 +125,14 @@ fs.writeFileSync(
     .replace(/:install:/g, yarnVersion ? 'yarn add' : 'npm install')
     .replace(/:sdk_platforms:/g, `"${getJsonMap('android-sdk-platforms').join('" "')}"`)
     .replace(/:sdk_tools:/g, `"${getJsonMap('android-sdk-tools').join('" "')}"`)
-    .replace(/:rn-version:/g, version)
-    .replace(/:avd-package:/g, `"${getJsonMap('android-avd').package}"`)
+);
+
+fs.writeFileSync(
+  path.resolve('shell', 'create-android-emulator.sh'),
+  fs.readFileSync(path.resolve('shell', 'create-android-emulator.sh'))
+    .toString()
+    .replace(/:rn_version:/g, version.replace(/\./, ''))
+    .replace(/:avd_package:/g, `"${getJsonMap('android-avd').package}"`)
 );
 
 fs.writeFileSync(
@@ -156,9 +162,14 @@ function makeDir(dirName) {
 }
 
 function copyTemplateFile(fileName) {
-  console.log(`Created file -> ${fileName}.`);
-  makeDir(path.dirname(fileName));
+  const parent = path.dirname(fileName);
+
+  if (parent && parent !== '.' && parent !== '..') {
+    makeDir(parent);
+  }
+
   fs.copyFileSync(path.join(__dirname, '../templates', fileName), fileName);
+  console.log(`Created file -> ${fileName}.`);
 }
 
 function installPackage(packageName, isDev = false) {

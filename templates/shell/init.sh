@@ -31,10 +31,8 @@ fi
 
 # Required by android
 # Install sdk
-sdk_manager=${ANDROID_HOME}/tools/bin/sdkmanager
-avd_manager=${ANDROID_HOME}/tools/bin/avdmanager
 # User may not install Android Studio
-if [ ! -f "$sdk_manager" ]; then
+if [ ! -f "${ANDROID_HOME}/tools/bin/sdkmanager" ]; then
   echo ""
   echo "Downloading android sdk tools..."
   echo ""
@@ -56,31 +54,14 @@ fi
 touch $HOME/.android/repositories.cfg
 # Accept all the licences, so the program will not ask again.
 yes | sdkmanager --licenses
-${sdk_manager} :sdk_platforms:
-${sdk_manager} :sdk_tools:
-
+sdkmanager :sdk_platforms:
+sdkmanager :sdk_tools:
 
 # Required by android
 # Install or update emulator tool
-${sdk_manager} --install emulator
+sdkmanager --install emulator
 # Create emulator.
-${avd_manager} create avd \
-  --name rn-android-:rn-version: \
-  --package :avd-package: \
-  --sdcard 300M \
-  --device "Nexus 5X"
-
-
-cat >> $HOME/.android/avd/rn-android-:rn-version:.avd/config.ini << EOF
-hw.ramSize=2048
-showDeviceFrame=yes
-hw.gpu.enabled=yes
-hw.gpu.mode=auto
-hw.keyboard=yes
-hw.camera.front=emulated
-hw.camera.back=virtualscene
-skin.path=_no_skin
-EOF
+sh shell/create-android-emulator.sh
 
 echo ''
 echo '\033[33mInitialize Complete.\033[0m'

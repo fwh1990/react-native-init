@@ -21,13 +21,14 @@ ls ~/.android/avd | grep .avd | sed "s#.avd##"
 echo ""
 
 if [ ${avd_count} == 0 ]; then
-  read -p "Android emulator is not found，you may add one by IDE android-studio" next
-  exit 1
+  echo "Android emulator is not found. Creating..."
+  sh shell/create-android-emulator.sh
+  avd=`ls ~/.android/avd | grep .avd | sed "s#.avd##"`
 elif [ ${avd_count} == 1 ]; then
   avd=${avds[0]}
 else
   first_avd=${avds[0]}
-  read -p "Select the emulator which you want to launch: [$first_avd]" avd
+  read -t 30 -p "Select the emulator which you want to launch: [$first_avd]" avd
   echo ""
 
   if [ "$avd" == "" ]; then
@@ -46,5 +47,9 @@ fi
 echo "Android emulator ${avd} is launching..."
 cd ~/Library/Android/sdk/tools/
 emulator -avd ${avd} &
-echo "Launching complete, wait for boot..."
-sleep 5
+echo "Wait for boot complete..."
+
+while [ "`adb shell getprop sys.boot_completed 2>/dev/null`" == "" ];
+do
+  sleep 1
+done

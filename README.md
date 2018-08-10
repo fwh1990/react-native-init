@@ -37,6 +37,3 @@ React-Native 0.55.4+
 
 ## Chinese Developer
 Launch vpn may be a better choice.
-
-## Related plugins
-Waiting...

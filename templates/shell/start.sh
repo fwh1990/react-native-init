@@ -10,6 +10,7 @@ osascript \
   -e "tell application \"Terminal\" to do script \"cd $(pwd) && react-native start\" in front window"
 
 react-native link
+# Run android may fail before emulator boot complete.
 react-native run-android
 # You can change simulator as you like. Such as 'iPhone X', 'iPhone 6'.
 react-native run-ios --simulator 'iPhone 8'
