@@ -149,6 +149,7 @@ replacePlaceholder('shell/signature-android.sh', [
   }
 ]);
 
+runShellAndReturn('echo start.command >> .gitignore');
 runShell('sh shell/init.sh');
 
 console.log(`Welcome to run "cd ${projectName} && npm start"`);

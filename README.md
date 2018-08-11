@@ -24,7 +24,7 @@ You'd better install jdk8, not jdk10. Because jdk10 may make your app crash.
 npm install -g react-native-init@latest
 ```
 ## Create project
-
+Open terminal and type script:
 ```bash
 react-native-init YourProjectName
 ```
