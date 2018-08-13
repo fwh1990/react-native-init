@@ -21,7 +21,7 @@ You can use Xcode -> Product -> Archive, and click `Upload to App Store` when co
 
 Also, you can use shell script.
 ```bash
-sh shell/app-store.sh
+sh shell/upload-app-store.sh
 ```
 In this way, you should override teamID in file `ios/exportOptions/app-store.plist`, go to [apple developer](https://developer.apple.com/account/ios/identifier/bundle) to fetch the keyword named: Prefix
 
