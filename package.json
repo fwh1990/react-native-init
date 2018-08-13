@@ -37,7 +37,7 @@
   "devDependencies": {
     "@types/minimist": "^1.2.0",
     "@types/mkdirp": "^0.5.2",
-    "@types/node": "^10.5.7",
+    "@types/node": "^10.5.8",
     "@types/semver": "^5.5.0"
   }
 }
