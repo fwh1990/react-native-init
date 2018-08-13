@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const copyDir = require('copy-dir');
 const minimist = require('minimist');
 const semver = require('semver');
 const misc = require('./maps/misc');
@@ -94,23 +95,12 @@ fs.writeFileSync(packageFilePath, JSON.stringify(packageData, null, 2));
 
 copyTemplateFile('.editorconfig');
 copyTemplateFile('README.md');
-// ajv is required by eslint
-// When missing ajv, you may see:
-// ajv-keywords@3.2.0 requires a peer of ajv@^6.0.0 but none is installed. You must install peer dependencies yourself.
-installPackage('ajv', true);
-installPackage('eslint', true);
-// installPackage('watchman', true);
-installPackage('@types/react-native', true);
-installPackage('@types/react', true);
-getJsonMap('ios-rncache').forEach((pkg) => {
-  copyTemplateFile(`rncache/${pkg}.tar.gz`);
-});
 
-const shellFolder = path.join(__dirname, '..', 'templates', 'shell', '*');
+const shellFolder = path.join(__dirname, '..', 'templates', 'shell');
 
 createDir('src');
 createDir('shell');
-runShell(`cp ${shellFolder} shell/`);
+copyDir.sync(shellFolder, path.resolve('shell'));
 
 replacePlaceholder('shell/init.sh', [
   {
@@ -150,6 +140,19 @@ replacePlaceholder('shell/signature-android.sh', [
 ]);
 
 runShellAndReturn('echo start.command >> .gitignore');
+
+// ajv is required by eslint
+// When missing ajv, you may see:
+// ajv-keywords@3.2.0 requires a peer of ajv@^6.0.0 but none is installed. You must install peer dependencies yourself.
+installPackage('ajv', true);
+installPackage('eslint', true);
+// installPackage('watchman', true);
+installPackage('@types/react-native', true);
+installPackage('@types/react', true);
+getJsonMap('ios-rncache').forEach((pkg) => {
+  copyTemplateFile(`rncache/${pkg}.tar.gz`);
+});
+
 runShell('sh shell/init.sh');
 
 console.log(`Welcome to run "cd ${projectName} && npm start"`);
