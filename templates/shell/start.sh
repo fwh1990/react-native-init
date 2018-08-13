@@ -14,7 +14,7 @@ if [ "${data}" = "packager-status:running" ]; then
 else
   commandFile=$(dirname "$0")/start.command
   cat > ${commandFile} << EOF
-cd "\$(dirname "$0")/.."
+cd "\$(dirname "\$0")/.."
 # Run 'react-native start --help' to get more parameters
 node "./node_modules/.bin/react-native" start --port ${port}
 EOF
