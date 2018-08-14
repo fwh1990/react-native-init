@@ -2,7 +2,6 @@ node_modules/
 /.editorconfig
 /.npmignore
 /.gitignore
-package-lock.json
 /shell
 .Ds_Store
 .idea/
