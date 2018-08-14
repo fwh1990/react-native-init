@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
+# Build app for android and ios.
+
 #############################
-# Make sure you have override file ios/exportOptions/app-store.plist
+# Make sure you have override file ios/exportOptions/*.plist
 #############################
 
+# Prepare
 react-native link
 
 # Build for android
@@ -18,7 +21,7 @@ cd -
 # Make sure xcode is installed.
 cd ios
 mkdir -p build
-rm -rf build/archive.xcarchive build/ipa-*
+rm -rf build/archive.xcarchive
 
 project_name=:project_name:
 
@@ -30,13 +33,3 @@ xcodebuild archive \
   -scheme ${project_name} \
   -configuration Release \
   -archivePath ./build/archive.xcarchive
-
-# Export
-# The same as click Xcode -> Window -> Organizer -> Export
-xcodebuild -exportArchive \
-    -archivePath ./build/archive.xcarchive \
-    -exportPath ./build/ipa-app-store \
-    -exportOptionsPlist ./exportOptions/app-store.plist \
-    -allowProvisioningUpdates
-
-cd -

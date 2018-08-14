@@ -22,7 +22,7 @@ echo ""
 
 if [ ${avd_count} == 0 ]; then
   echo "Android emulator is not found. Creating..."
-  sh shell/create-android-emulator.sh
+  sh shell/android/create-emulator.sh
   avd=`ls ~/.android/avd | grep .avd | sed "s#.avd##"`
 elif [ ${avd_count} == 1 ]; then
   avd=${avds[0]}
@@ -48,6 +48,7 @@ echo "Android emulator ${avd} is launching..."
 cd ~/Library/Android/sdk/tools/
 emulator -avd ${avd} &
 
+# It's important to wait the emulator rendering the desktop, otherwise, script `react-native run-android` make no sense.
 count=0
 while [ "`adb shell getprop sys.boot_completed 2>/dev/null`" != "1" ];
 do

@@ -8,8 +8,8 @@ if [ ! -f "android/release.keystore" ]; then
     -keysize 2048 \
     -validity 100000 \
     -keystore "android/release.keystore" \
-    -storepass "input-your-password-a" \
+    -storepass "_______your-password-a_______" \
     -alias "com.:project_name:" \
-    -keypass "input-your-password-b" \
+    -keypass "_______input-your-password-b_______" \
     -dname ""
 fi

@@ -2,17 +2,15 @@
 
 # Input your app_id and password.
 # The account must be the owner of certificates.
-APP_STORE_ACCOUNT=?
-APP_STORE_PASSWORD=?
+APP_STORE_ACCOUNT=???????
+APP_STORE_PASSWORD=???????
 
-IPA=`ls ios/build/ipa-app-store/*.sh 2>/dev/null`
+rm -rf ios/build/ipa-app-store
+sh shell/build/ios/export-ipa.sh app-store
+IPA=`ls ios/build/ipa-app-store/*.ipa 2>/dev/null`
 
 if [ -z "$IPA" ]; then
-  echo ""
-  echo "Oops, Ipa file is not found. run shell build.sh at first."
-  echo ""
-  echo "    sh shell/build.sh"
-  echo ""
+  echo "Ipa file is missing."
   exit 1
 fi
 

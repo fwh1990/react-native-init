@@ -116,7 +116,7 @@ replacePlaceholder('shell/init.sh', [
     value: `"${getJsonMap('android-sdk-tools').join('" "')}"`,
   },
 ]);
-replacePlaceholder('shell/create-android-emulator.sh', [
+replacePlaceholder('shell/android/create-emulator.sh', [
   {
     pattern: /:rn_version:/g,
     value: version.replace(/\./g, ''),
@@ -126,13 +126,13 @@ replacePlaceholder('shell/create-android-emulator.sh', [
     value: `"${getJsonMap('android-avd').package}"`,
   }
 ]);
-replacePlaceholder('shell/build.sh', [
+replacePlaceholder('shell/archive.sh', [
   {
     pattern: /:project_name:/g,
     value: projectName,
   }
 ]);
-replacePlaceholder('shell/signature-android.sh', [
+replacePlaceholder('shell/android/signature.sh', [
   {
     pattern: /:project_name:/g,
     value: projectName,

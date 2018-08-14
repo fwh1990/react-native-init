@@ -38,16 +38,10 @@ if [ ! -f "${ANDROID_HOME}/tools/bin/sdkmanager" ]; then
   echo ""
   sdk_tools_url=`curl https://developer.android.google.cn/studio/ | egrep -o "https://dl.google.com/android/repository/sdk-tools-darwin-.+?\.zip"`
   sdk_tools_name=`basename ${sdk_tools_url}`
-  sdk_tools_dir=$HOME/react-native-cli-${sdk_tools_name%%.*}
-  sdk_tools_archive=${sdk_tools_dir}/${sdk_tools_name}
-
-  if [ ! -f "$sdk_tools_archive" ]; then
-    mkdir -p ${sdk_tools_dir}
-    curl -o ${sdk_tools_archive} ${sdk_tools_url}
-  fi
-
+  rm -f ${sdk_tools_name}
+  curl -O ${sdk_tools_url}
   mkdir -p  ${ANDROID_HOME}
-  tar -zxvf ${sdk_tools_archive} -C ${ANDROID_HOME}
+  tar -zxvf ${sdk_tools_name} -C ${ANDROID_HOME}
 fi
 
 # This file may not exist.
@@ -61,7 +55,7 @@ sdkmanager :sdk_tools:
 # Install or update emulator tool
 sdkmanager --install emulator
 # Create emulator.
-sh shell/create-android-emulator.sh
+sh shell/android/create-emulator.sh
 
 echo ''
 echo '\033[33mInitialize Complete.\033[0m'
