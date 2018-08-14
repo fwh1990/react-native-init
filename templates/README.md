@@ -4,6 +4,12 @@ Everyone must run this script at first.
 sh shell/init.sh
 ```
 
+## Daily coding
+We have prepared everything for you. You just need run script below:
+```bash
+npm start
+```
+
 ## Build app
 Before build app, you should create signature for android
 ```bash
