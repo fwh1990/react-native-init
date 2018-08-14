@@ -1,6 +1,6 @@
 {
   "name": "react-native-init",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Create React-Native Projects with Native Code",
   "main": "src/index.js",
   "scripts": {
@@ -32,13 +32,16 @@
     "copy-dir": "^0.4.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "react-native-cli": "^2.0.1",
     "semver": "^5.5.0"
+  },
+  "peerDependencies": {
+    "react-native-cli": "^2.0.1"
   },
   "devDependencies": {
     "@types/minimist": "^1.2.0",
     "@types/mkdirp": "^0.5.2",
     "@types/node": "^10.5.8",
-    "@types/semver": "^5.5.0"
+    "@types/semver": "^5.5.0",
+    "react-native-cli": "^2.0.1"
   }
 }
