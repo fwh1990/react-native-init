@@ -26,9 +26,8 @@ if [ -z "$ANDROID_PATH_EXIST" ]; then
     export PATH=$PATH:$ANDROID_HOME/platform-tools
 
   ' >> ~/.bash_profile
-
-  source $HOME/.bash_profile
 fi
+source $HOME/.bash_profile
 
 # Required by android
 # Install sdk tools
