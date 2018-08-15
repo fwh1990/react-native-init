@@ -45,6 +45,7 @@ if [ ! -f "${ANDROID_HOME}/tools/bin/sdkmanager" ]; then
 fi
 
 # This file may not exist.
+mkdir -p $HOME/.android
 touch $HOME/.android/repositories.cfg
 # Accept all the licences, so the program will not ask again.
 yes | sdkmanager --licenses

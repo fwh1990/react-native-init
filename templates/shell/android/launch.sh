@@ -45,5 +45,5 @@ while [ "`adb shell getprop sys.boot_completed 2>/dev/null`" != "1" ];
 do
   sleep 1
   count=$[${count} + 1]
-  echo "Wait for boot complete, wasting ${count} second..."
+  echo "Waiting for boot complete, wasting ${count}/150 second..."
 done

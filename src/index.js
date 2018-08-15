@@ -76,25 +76,37 @@ const projectPath = path.join(process.cwd(), projectName);
 // change the working directory to new project
 process.chdir(projectPath);
 
-// todo: extend the babel
-// const babelFilePath = path.resolve('.babelrc');
-// const babel = eval('(' + fs.readFileSync(babelFilePath).toString() + ')');
+// (function () {
+//   // todo: extend the babel
+//   const babelFilePath = path.resolve('.babelrc');
+//   const babel = eval('(' + fs.readFileSync(babelFilePath).toString() + ')');
 //
-// if (!Array.isArray(babel.plugins)) {
-//     babel.plugins = [];
-// }
+//   if (!Array.isArray(babel.plugins)) {
+//       babel.plugins = [];
+//   }
 //
-// fs.writeFileSync(babelFilePath, JSON.stringify(babel, null, 2));
+//   fs.writeFileSync(babelFilePath, JSON.stringify(babel, null, 2));
+// })();
 
-const packageFilePath = path.resolve('package.json');
-const packageData = require(packageFilePath);
+(function () {
+  const packageFilePath = path.resolve('package.json');
+  const packageData = require(packageFilePath);
 
-if (!packageData.scripts) {
-  packageData.scripts = {};
-}
+  if (!packageData.scripts) {
+    packageData.scripts = {};
+  }
 
-packageData.scripts.start = 'sh shell/start.sh 8081';
-fs.writeFileSync(packageFilePath, JSON.stringify(packageData, null, 2));
+  packageData.scripts.start = 'sh shell/start.sh 8081';
+  fs.writeFileSync(packageFilePath, JSON.stringify(packageData, null, 2));
+})();
+
+// Fix warning: To run dex in process, the Gradle daemon needs a larger heap.
+replacePlaceholder('android/gradle.properties', [
+  {
+    pattern: /#\s*(org\.gradle\.jvmargs\s*=.+)/,
+    value: '$1',
+  }
+]);
 
 copyTemplateFile('.editorconfig');
 copyTemplateFile('README.md');

@@ -51,6 +51,3 @@ If you don't append this parameter, we will check **yarn** at first, and then ch
 
 ## Supported version
 React-Native 0.55.4+
-
-## Chinese Developer
-Launch vpn may be a better choice.
