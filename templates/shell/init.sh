@@ -15,7 +15,7 @@ mkdir -p ~/.rncache
 cp -f rncache/* ~/.rncache/
 
 # Required by android
-mkdir -p ~/.bash_profile
+touch ~/.bash_profile
 ANDROID_PATH_EXIST=`cat ~/.bash_profile | grep ANDROID_HOME=`
 if [ -z "$ANDROID_PATH_EXIST" ]; then
   echo '
