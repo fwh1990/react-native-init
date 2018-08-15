@@ -10,11 +10,12 @@
 
 # Required by ios
 # Downloading rncache can be fail easily, so we just copy it.
-# See react-native/src/rncache.json
+# See node_modules/react-native/src/rncache.json
 mkdir -p ~/.rncache
 cp -f rncache/* ~/.rncache/
 
 # Required by android
+mkdir -p ~/.bash_profile
 ANDROID_PATH_EXIST=`cat ~/.bash_profile | grep ANDROID_HOME=`
 if [ -z "$ANDROID_PATH_EXIST" ]; then
   echo '
@@ -51,15 +52,18 @@ touch $HOME/.android/repositories.cfg
 yes | sdkmanager --licenses
 
 # Required by android
-sdkmanager emulator --no_https --verbose
+# TODO: add mirror for china.
+sdk_manager_options='--no_https --verbose --channel=0'
+# To launch the emulator by shell script.
+sdkmanager emulator ${sdk_manager_options}
 # Fix warning: NDK is missing a "platforms" directory
-sdkmanager ndk-bundle --no_https --verbose
-sdkmanager platform-tools --no_https --verbose
-sdkmanager "extras;intel;Hardware_Accelerated_Execution_Manager" --no_https --verbose
-
-sdkmanager :sdk_platforms: --no_https --verbose
-sdkmanager :sdk_tools: --no_https --verbose
-sdkmanager --update
+sdkmanager ndk-bundle ${sdk_manager_options}
+sdkmanager platform-tools ${sdk_manager_options}
+# Intel HAXM
+sdkmanager "extras;intel;Hardware_Accelerated_Execution_Manager" ${sdk_manager_options}
+# RN version required.
+sdkmanager :sdk_platforms: :sdk_tools: ${sdk_manager_options}
+sdkmanager --update ${sdk_manager_options}
 
 # Create emulator.
 sh shell/android/create-emulator.sh
