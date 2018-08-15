@@ -1,6 +1,6 @@
+// Function getJsonMap is disabled in this file
 const semver = require('semver');
 const {exeSync} = require('child_process');
-const {getJsonMap} = require('./getJsonMap');
 const minimist = require('minimist');
 let reactNativeVersion;
 
@@ -9,7 +9,7 @@ function getReactNativeVersion() {
     reactNativeVersion = minimist(process.argv.slice(2)).version || '';
 
     if (!reactNativeVersion) {
-      reactNativeVersion = getJsonMap('misc')['max-support-rn'];
+      reactNativeVersion = require('../maps/misc')['max-support-rn'];
     }
   }
 
