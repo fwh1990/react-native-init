@@ -30,7 +30,7 @@ if [ -z "$ANDROID_PATH_EXIST" ]; then
 fi
 
 # Required by android
-# Install sdk
+# Install sdk tools
 # User may not install Android Studio
 if [ ! -f "${ANDROID_HOME}/tools/bin/sdkmanager" ]; then
   echo ""
@@ -48,12 +48,18 @@ fi
 touch $HOME/.android/repositories.cfg
 # Accept all the licences, so the program will not ask again.
 yes | sdkmanager --licenses
-sdkmanager :sdk_platforms:
-sdkmanager :sdk_tools:
 
 # Required by android
-# Install or update emulator tool
-sdkmanager --install emulator
+sdkmanager emulator --no_https --verbose
+# Fix warning: NDK is missing a "platforms" directory
+sdkmanager ndk-bundle --no_https --verbose
+sdkmanager platform-tools --no_https --verbose
+sdkmanager "extras;intel;Hardware_Accelerated_Execution_Manager" --no_https --verbose
+
+sdkmanager :sdk_platforms: --no_https --verbose
+sdkmanager :sdk_tools: --no_https --verbose
+sdkmanager --update
+
 # Create emulator.
 sh shell/android/create-emulator.sh
 

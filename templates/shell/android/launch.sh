@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
 
-ANDROID_PATH_EXIST=`cat ~/.bash_profile | grep ANDROID_NDK=`
-
-if [ -z "$ANDROID_PATH_EXIST" ]; then
-  echo '
-    export ANDROID_NDK=$HOME/Library/Android/ndk
-  ' >> ~/.bash_profile
-
-  source $HOME/.bash_profile
-fi
-
 avds=`ls ~/.android/avd | grep .avd | sed "s#.avd##"`
 avds=(${avds})
 avd_count=`ls ~/.android/avd | grep .avd | wc -l`
@@ -45,11 +35,12 @@ if [ -n "${process}" ] && [ ${process_count} == 1 ]; then
 fi
 
 echo "Android emulator ${avd} is launching..."
-cd ~/Library/Android/sdk/tools/
+cd ${ANDROID_HOME}/tools/
 emulator -avd ${avd} &
 
 # It's important to wait the emulator rendering the desktop, otherwise, script `react-native run-android` make no sense.
 count=0
+# FIXME: cannot read adb public key file
 while [ "`adb shell getprop sys.boot_completed 2>/dev/null`" != "1" ];
 do
   sleep 1

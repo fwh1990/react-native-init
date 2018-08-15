@@ -4,8 +4,7 @@
   "description": "Create React-Native Projects with Native Code",
   "main": "src/index.js",
   "scripts": {
-    "demo:0554": "cd .. && rm -rf demo && node react-native-init/src/index.js demo --version=0.54.4 && cd demo && npm start",
-    "demo": "cd .. && rm -rf demo && node react-native-init/src/index.js demo && cd demo && npm start"
+    "demo": "rm -rf ~/Android ~/.android ../demo && cd .. && node react-native-init/src/index.js demo && cd demo && npm start"
   },
   "repository": {
     "type": "git",
@@ -40,7 +39,7 @@
   "devDependencies": {
     "@types/minimist": "^1.2.0",
     "@types/mkdirp": "^0.5.2",
-    "@types/node": "^10.5.8",
+    "@types/node": "^10.7.0",
     "@types/semver": "^5.5.0",
     "react-native-cli": "^2.0.1"
   }

@@ -38,8 +38,11 @@ if (semver.lt(process.version, nodeVersion)) {
 
 const projectName = args._[0];
 const version = getReactNativeVersion();
-if (semver.lt(version, misc['min-support-rn'])) {
-  console.error(`The minimum supported react-native version is ${misc['min-support-rn']}`);
+if (
+  semver.lt(version, misc['min-support-rn']) ||
+  semver.gt(version, misc['max-support-rn'])
+) {
+  console.error(`The supported react-native version is between ${misc['min-support-rn']} and ${misc['max-support-rn']}`);
   process.exit(1);
 }
 
@@ -74,7 +77,7 @@ const projectPath = path.join(process.cwd(), projectName);
 process.chdir(projectPath);
 
 // todo: extend the babel
-// const babelFilePath = path.resolve(projectPath, '.babelrc');
+// const babelFilePath = path.resolve('.babelrc');
 // const babel = eval('(' + fs.readFileSync(babelFilePath).toString() + ')');
 //
 // if (!Array.isArray(babel.plugins)) {
@@ -95,12 +98,9 @@ fs.writeFileSync(packageFilePath, JSON.stringify(packageData, null, 2));
 
 copyTemplateFile('.editorconfig');
 copyTemplateFile('README.md');
-
-const shellFolder = path.join(__dirname, '..', 'templates', 'shell');
-
 createDir('src');
 createDir('shell');
-copyDir.sync(shellFolder, path.resolve('shell'));
+copyDir.sync(path.join(__dirname, '..', 'templates', 'shell'), path.resolve('shell'));
 
 replacePlaceholder('shell/init.sh', [
   {

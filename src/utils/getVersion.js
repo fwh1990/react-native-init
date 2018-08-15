@@ -1,7 +1,7 @@
 const semver = require('semver');
 const {exeSync} = require('child_process');
+const {getJsonMap} = require('./getJsonMap');
 const minimist = require('minimist');
-const {runShellAndReturn}  = require('./runShell');
 let reactNativeVersion;
 
 function getReactNativeVersion() {
@@ -9,11 +9,7 @@ function getReactNativeVersion() {
     reactNativeVersion = minimist(process.argv.slice(2)).version || '';
 
     if (!reactNativeVersion) {
-      reactNativeVersion = JSON.parse(runShellAndReturn('npm view react-native versions --json'))
-        .reverse()
-        .find(function (version) {
-          return /^\d+\.\d+(?:\.\d+)?$/.test(version);
-        });
+      reactNativeVersion = getJsonMap('misc')['max-support-rn'];
     }
   }
 
