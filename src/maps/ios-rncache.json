@@ -1,4 +1,0 @@
-{
-  "0.55.4": ["boost_1_63_0", "double-conversion-1.1.5", "folly-2016.09.26.00", "glog-0.3.4"],
-  "0.56.0": ["boost_1_63_0", "double-conversion-1.1.5", "folly-2016.10.31.00", "glog-0.3.4"]
-}

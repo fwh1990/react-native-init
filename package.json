@@ -1,46 +1,35 @@
 {
   "name": "react-native-init",
-  "version": "0.6.7",
-  "description": "Create React-Native Projects with Native Code",
-  "main": "src/index.js",
-  "scripts": {
-    "demo": "rm -rf ~/Library/Android ~/.android ../demo && cd .. && node react-native-init/src/index.js demo && cd demo && npm start"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fwh1990/react-native-init.git"
-  },
-  "keywords": [
-    "react-native",
-    "android",
-    "ios",
-    "app",
-    "cli",
-    "initialization"
-  ],
-  "author": "fwh1990",
+  "version": "0.58.0",
+  "description": "Create react native projects with native code based on react-native-cli",
+  "main": "index.js",
+  "repository": "https://github.com/fwh1990/react-native-init",
+  "author": "范文华 <531362022@qq.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/fwh1990/react-native-init/issues"
+  "private": false,
+  "scripts": {
+    "demo": "rm -rf ~/.android && rm -rf demo && ts-node src/index.ts demo && cd demo && node scripts/init && node scripts/start"
   },
-  "homepage": "https://github.com/fwh1990/react-native-init#readme",
   "bin": {
-    "react-native-init": "./src/index.js"
+    "react-native-init": "./index.js"
   },
   "dependencies": {
+    "colors": "^1.3.3",
     "copy-dir": "^0.4.0",
+    "fs-extra": "^7.0.1",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "semver": "^5.5.0"
-  },
-  "peerDependencies": {
-    "react-native-cli": "^2.0.1"
+    "react-native-cli": "^2.0.1",
+    "semver": "^5.6.0",
+    "tslint": "^5.12.1"
   },
   "devDependencies": {
+    "@types/fs-extra": "^5.0.4",
     "@types/minimist": "^1.2.0",
     "@types/mkdirp": "^0.5.2",
-    "@types/node": "^10.7.0",
+    "@types/node": "^10.12.20",
     "@types/semver": "^5.5.0",
-    "react-native-cli": "^2.0.1"
+    "ts-node": "^8.0.2",
+    "typescript": "^3.2.4"
   }
 }
