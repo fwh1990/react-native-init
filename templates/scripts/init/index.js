@@ -57,16 +57,19 @@ execSync(':install_tool: install', {
 });
 
 if (isMacOs) {
+  console.log('Installing watchman...');
   execSync('sh scripts/init/watchman.sh', {
     stdio: 'inherit',
   });
 }
 
 if (isMacOs || isLinux) {
+  console.log('Setting environment...');
   execSync('sh scripts/init/setEnv.sh', {
     stdio: 'inherit',
   });
 
+  console.log('Resolving sdk manager...');
   execSync('sh scripts/init/sdkManager.sh', {
     stdio: 'inherit',
   });

@@ -12,6 +12,8 @@ for export_sentence in ${exports[*]}
 do
   export_sentence="export ${export_sentence}"
 
+  echo $export_sentence
+
   if [ -z "$(cat ~/.bash_profile | grep '$export_sentence')" ]
   then
     echo "
@@ -21,4 +23,4 @@ do
   fi
 done
 
-source $HOME/.bash_profile
+source ~/.bash_profile
