@@ -18,7 +18,9 @@ if (!versionBetween(nodeVersion, ':minNodeVersion:')) {
 
 // Check jdk version
 try {
-  const jdkVersionInfo = execSync('javac -version 2>&1 | awk \'NR==1{print $2}\'').toString();
+  const jdkVersionInfo = execSync('java -version 2>&1 | awk \'NR==1{print $3}\'')
+    .toString()
+    .replace(/"/g, '');
   const matches = jdkVersionInfo.match(/^1\.(\d+)(.\d+)?.*/) || jdkVersionInfo.match(/^(\d+)(.\d+)?(.\d+)?.*/);
   let jdkVersion = '0';
 
