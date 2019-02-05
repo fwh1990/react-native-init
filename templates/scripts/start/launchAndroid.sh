@@ -5,11 +5,8 @@ set -e
 avds=($(emulator -list-avds))
 avd_count=${#avds[*]}
 
-echo ""
-echo "Android emulator list："
-echo ""
-ls ~/.android/avd | grep .avd | sed "s#.avd##"
-echo ""
+echo "\nAndroid emulator list：\n"
+emulator -list-avds
 
 if [ ${avd_count} == 0 ]
 then
@@ -30,8 +27,7 @@ else
 fi
 
 # Do not use [ grep -v grep ] in node, it's not compatible with child_process.
-process=$(ps aux | grep "\-avd $avd")
-process_count=$(echo ${process} | wc -l)
+process_count=$(ps aux | grep "\-avd $avd" | wc -l)
 
 if [ ${process_count} == 2 ]
 then
