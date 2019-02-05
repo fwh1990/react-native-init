@@ -9,9 +9,7 @@ set -e
 # Install sdk tools
 # Thus Android Studio is unnecessary now.
 if [ ! -f "$ANDROID_HOME/tools/bin/sdkmanager" ]; then
-  echo ""
-  echo "Downloading android sdkManager..."
-  echo ""
+  echo "\nDownloading android sdkManager...\n"
   mkdir -p ${ANDROID_HOME}
   sdk_tools_name='sdk-tools-darwin-:sdk_manager_code:.zip'
   rm -f ${sdk_tools_name}
@@ -31,11 +29,12 @@ yes | sdkmanager --licenses
 # TODO: add mirror for china.
 # Channel number: 0 (Stable), 1 (Beta), 2 (Dev), 3 (Canary)
 sdk_manager_options='--no_https --verbose --channel=0'
+
 # RN version required.
-for packageName in :sdk_packages:
+for package_name in "extras;intel;Hardware_Accelerated_Execution_Manager" :sdk_packages:
 do
-  echo "\nInstalling package \033[32m${packageName}\033[0m. Wait patiently...\n"
-  sdkmanager "$packageName" ${sdk_manager_options}
+  echo "\nInstalling package \033[32m${package_name}\033[0m. Wait patiently...\n"
+  sdkmanager "$package_name" ${sdk_manager_options}
   echo "\nInstalled.\n"
 done
 

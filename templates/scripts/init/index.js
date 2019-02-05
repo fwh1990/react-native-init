@@ -68,9 +68,15 @@ if (isMacOs || isLinux) {
   execSync('sh scripts/init/setEnv.sh', {
     stdio: 'inherit',
   });
+}
 
-  console.log('Resolving sdk manager...');
-  execSync('sh scripts/init/sdkManager.sh', {
+console.log('Resolving sdk manager...');
+if (isMacOs) {
+  execSync('sh scripts/init/sdkManagerMac.sh', {
+    stdio: 'inherit',
+  });
+} else if (isLinux) {
+  execSync('sh scripts/init/sdkManagerLinux.sh', {
     stdio: 'inherit',
   });
 }
