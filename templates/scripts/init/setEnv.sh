@@ -1,12 +1,6 @@
 #!/usr/bin/env bash
 
-# Source bash_profile not working for other terminal progress in linux.
-if [ "$(uname)" == "Darwin" ]
-then
-  bash_file=~/.bash_profile
-else
-  bash_file=~/.bashrc
-fi
+bash_file=~/.bash_profile
 
 # Required by android
 touch ${bash_file}

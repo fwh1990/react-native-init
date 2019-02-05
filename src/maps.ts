@@ -16,6 +16,8 @@ export default {
     "system-images;android-28;google_apis;x86_64",
   ],
   "androidSdkPackages": [
+    // Intel HAXM
+    "extras;intel;Hardware_Accelerated_Execution_Manager",
     // Android SDK Platform-Tools
     "platform-tools",
     // Enhance: Launch the emulator by shell script.

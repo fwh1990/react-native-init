@@ -31,7 +31,7 @@ yes | sdkmanager --licenses
 sdk_manager_options='--no_https --verbose --channel=0'
 
 # RN version required.
-for package_name in "extras;intel;Hardware_Accelerated_Execution_Manager" :sdk_packages:
+for package_name in :sdk_packages:
 do
   echo "\nInstalling package \033[32m${package_name}\033[0m. Wait patiently...\n"
   sdkmanager "$package_name" ${sdk_manager_options}

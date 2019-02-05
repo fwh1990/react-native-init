@@ -8,6 +8,11 @@ const isLinux = ['freebsd', 'linux', 'openbsd'].some(function (item) {
   return item === process.platform;
 });
 
+if (isLinux) {
+  console.log(colors.red('\nLinux is not supported yet.\n'));
+  process.exit(1);
+}
+
 // Check node version
 const nodeVersion = process.version;
 
@@ -63,20 +68,14 @@ if (isMacOs) {
   });
 }
 
-if (isMacOs || isLinux) {
-  console.log('Setting environment...');
+if (isMacOs) {
   execSync('sh scripts/init/setEnv.sh', {
     stdio: 'inherit',
   });
 }
 
-console.log('Resolving sdk manager...');
 if (isMacOs) {
-  execSync('sh scripts/init/sdkManagerMac.sh', {
-    stdio: 'inherit',
-  });
-} else if (isLinux) {
-  execSync('sh scripts/init/sdkManagerLinux.sh', {
+  execSync('sh scripts/init/sdkManager.sh', {
     stdio: 'inherit',
   });
 }

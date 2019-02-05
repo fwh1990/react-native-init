@@ -2,13 +2,7 @@
 
 set -e
 
-if [ ! -f ~/.android/avd ]
-then
-  echo "Android emulator is not found. Creating..."
-  sh scripts/start/createEmulator.sh
-fi
-
-avds=($(ls ~/.android/avd | grep .avd | sed "s#.avd##"))
+avds=($(emulator -list-avds))
 avd_count=${#avds[*]}
 
 echo ""
@@ -21,7 +15,7 @@ if [ ${avd_count} == 0 ]
 then
   echo "Android emulator is not found. Creating..."
   sh scripts/start/createEmulator.sh
-  avd=$(ls ~/.android/avd | grep .avd | sed "s#.avd##")
+  avd=$(emulator -list-avds)
 elif [ ${avd_count} == 1 ]
 then
   avd=${avds[0]}
