@@ -55,6 +55,16 @@ if (isMacOs) {
   }
 }
 
+try {
+  console.log('Checking :install_tool: version...');
+  execSync(':install_tool: -version', {
+    stdio: 'inherit',
+  });
+} catch (e) {
+  console.log(colors.red(e.message || e));
+  process.exit(1);
+}
+
 // Your team should use the same tool to install packages.
 // That dependencies on the project creator.
 execSync(':install_tool: install', {
