@@ -1,6 +1,6 @@
 {
   "name": "react-native-init",
-  "version": "0.58.9",
+  "version": "0.58.10",
   "description": "Create react native projects with native code based on react-native-cli",
   "main": "lib/index.js",
   "repository": "https://github.com/fwh1990/react-native-init",

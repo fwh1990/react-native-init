@@ -43,7 +43,8 @@ if (!rnVersion) {
   process.exit(1);
 }
 
-let installCommand = `react-native init ${projectName} --version=${rnVersion}`;
+const bin = path.resolve(__dirname, '../node_modules/.bin/react-native');
+let installCommand = `${bin} init ${projectName} --version=${rnVersion}`;
 
 if (args.npm) {
   installCommand += ' --npm';
