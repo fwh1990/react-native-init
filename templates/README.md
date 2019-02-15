@@ -13,7 +13,7 @@ We have prepared everything for you. You just need run script below:
 ## Build app
 Before build app, you should create signature for android
 ```bash
-  sh scripts/build/signature.sh
+  sh scripts/build/android-signature.sh
 ```
 Before build app, you should create personal certificate and upload to [apple developer](https://developer.apple.com/account/ios/certificate). Or create by xcode automatically.
 

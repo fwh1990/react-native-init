@@ -64,6 +64,7 @@ process.chdir(projectPath);
   }
 
   packageData.scripts.start = 'node scripts/start --port=8081';
+  packageData.license = packageData.license || 'UNLICENSED';
   fs.writeFileSync(packageFilePath, JSON.stringify(packageData, null, 2));
 })();
 
@@ -149,7 +150,7 @@ replacePlaceholder('scripts/build/archive.sh', [
   }
 ]);
 
-replacePlaceholder('scripts/build/signature.sh', [
+replacePlaceholder('scripts/build/android-signature.sh', [
   {
     pattern: /:project_name:/g,
     value: projectName,
