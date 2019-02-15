@@ -48,8 +48,15 @@ try {
 }
 
 if (isMacOs) {
-  const xcodeVersion = execSync('xcodebuild -version 2>&1 | awk \'NR==1{print $2}\'').toString().replace(/\n/g, '');
-  if (!versionBetween(xcodeVersion, ':minXcodeVersion:', ':maxXcodeVersion:')) {
+  let xcodeVersion = execSync('xcodebuild -version 2>&1 | awk \'NR==1{print $2}\'').toString().replace(/\n/g, '');
+  xcodeVersion = Number.parseFloat(xcodeVersion);
+
+  if (Number.isNaN(xcodeVersion)) {
+    console.log(colors.red(`\nUnknown xcode version. Are you sure xcode is installed?\n`));
+    process.exit(1);
+  }
+
+  if (!versionBetween(String(xcodeVersion), ':minXcodeVersion:', ':maxXcodeVersion:')) {
     console.log(colors.red(`\nThe xcode version should between :minXcodeVersion: and :maxXcodeVersion:. Current version: ${xcodeVersion}\n`));
     process.exit(1);
   }
