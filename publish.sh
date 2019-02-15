@@ -14,7 +14,7 @@ echo "Building..."
 rm -rf ./build/
 npx tsc
 cp -r ./templates ./build/
-cp package.json ./build/
+cp package.json README.md LICENSE ./build/
 echo "Begin publish..."
 npm publish ./build/
 

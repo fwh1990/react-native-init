@@ -58,13 +58,13 @@ If you don't append this parameter, we will check **yarn** at first, and then ch
 ## Supported version
 <table>
   <tr>
-    <th>react-native-init</th>
+    <th>repository</th>
     <th>react-native</th>
   </tr>
   <tr>
-      <td>< 0.58</td>
-      <td>0.54.* - 0.56.*</td>
-    </tr>
+    <td>< 0.7.0</td>
+    <td>0.54.* - 0.56.*</td>
+  </tr>
   <tr>
     <td>0.58.*</td>
     <td>0.58.*</td>
