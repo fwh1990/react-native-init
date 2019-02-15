@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import fs from 'fs';
 import path from 'path';
 import minimist from 'minimist';
@@ -41,8 +43,7 @@ if (!rnVersion) {
   process.exit(1);
 }
 
-const bin = path.resolve('./node_modules/.bin/react-native');
-let installCommand = `${bin} init ${projectName} --version=${rnVersion}`;
+let installCommand = `react-native init ${projectName} --version=${rnVersion}`;
 
 if (args.npm) {
   installCommand += ' --npm';
