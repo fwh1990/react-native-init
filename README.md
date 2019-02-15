@@ -27,7 +27,7 @@ npm install -g react-native-init@latest
 OR
 
 ```bash
-yrn global add react-native-init@latest
+yarn global add react-native-init@latest
 ```
 
 ## Create project
@@ -48,7 +48,7 @@ npm start
 
 ## Options
 
-### npm {boolean}
+### npm
 Using npm to install package whatever.
 ```bash
 react-native-init YourProjectName --npm
